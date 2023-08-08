@@ -1,4 +1,3 @@
-
 # Amazon EMR Serverless Utilities
 
 This is a util class library for Amazon EMR Serverless, i.e. A generic job class for submitting pure sql files and so on.
@@ -21,4 +20,4 @@ cd ./emr-serverless-utils
 mvn clean package
 ```
 
-`target/emr-serverless-utils-1.0.jar` is uber jar; `target/emr-serverless-utils-1.0.zip` is project jar and dependent libraries.
+The `target/emr-serverless-utils-1.0.jar` is a uber jar, `target/emr-serverless-utils-1.0.zip` is project jar and dependent libraries.
