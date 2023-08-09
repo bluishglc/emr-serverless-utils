@@ -39,6 +39,14 @@ object SparkSqlSupport extends LazyLogging {
 				}
 			spark
 		}
+
+		def execSqlFile(sqlFilesOpt: String, sqlParams: String): SparkSession = {
+			execSqlFile(Some(sqlFilesOpt), Some(sqlParams))
+		}
+
+		def execSqlFile(sqlFilesOpt: String): SparkSession = {
+			execSqlFile(Some(sqlFilesOpt), None)
+		}
 	}
 
 }
