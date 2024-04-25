@@ -11,42 +11,42 @@ import org.apache.spark.sql.SparkSession
  */
 object SparkSqlSupport extends LazyLogging {
 
-	implicit class SparkSqlEnhancer(spark: SparkSession) {
+  implicit class SparkSqlEnhancer(spark: SparkSession) {
 
-		def execSqlFile(sqlFilesOpt: Option[String], sqlParams: Option[String]): SparkSession = {
-			val sqlFiles = sqlFilesOpt.get
-			spark
-				.sparkContext
-				.wholeTextFiles(sqlFiles, 1)
-				.values
-				.collect
-				.mkString(";")
-				.split(";")
-				.filter(StringUtils.isNotBlank(_))
-				.foreach {
-					sql =>
-						val sqlBuilder = sqlParams.foldLeft(sql) {
-							(sql, params) =>
-								params.split(",").foldLeft(sql) {
-									(sql, kv) =>
-										val Array(key, value) = kv.split("=")
-										logger.info(s"Sql Param Key = $key, Sql Param Value = $value")
-										sql.replace(s"$${${key}}", value)
-								}
-						}
-						logger.info(s"Sql to be executed: ${sqlBuilder}")
-						spark.sql(sqlBuilder)
-				}
-			spark
-		}
+    def execSqlFile(sqlFilesOpt: Option[String], sqlParams: Option[String]): SparkSession = {
+      val sqlFiles = sqlFilesOpt.get
+      spark
+        .sparkContext
+        .wholeTextFiles(sqlFiles, 1)
+        .values
+        .collect
+        .mkString(";")
+        .split(";")
+        .filter(StringUtils.isNotBlank(_))
+        .foreach {
+          sql =>
+            val sqlBuilder = sqlParams.foldLeft(sql) {
+              (sql, params) =>
+                params.split(",").foldLeft(sql) {
+                  (sql, kv) =>
+                    val Array(key, value) = kv.split("=")
+                    logger.info(s"Sql Param Key = $key, Sql Param Value = $value")
+                    sql.replace(s"$${${key}}", value)
+                }
+            }
+            logger.info(s"Sql to be executed: ${sqlBuilder}")
+            spark.sql(sqlBuilder)
+        }
+      spark
+    }
 
-		def execSqlFile(sqlFilesOpt: String, sqlParams: String): SparkSession = {
-			execSqlFile(Some(sqlFilesOpt), Some(sqlParams))
-		}
+    def execSqlFile(sqlFilesOpt: String, sqlParams: String): SparkSession = {
+      execSqlFile(Some(sqlFilesOpt), Some(sqlParams))
+    }
 
-		def execSqlFile(sqlFilesOpt: String): SparkSession = {
-			execSqlFile(Some(sqlFilesOpt), None)
-		}
-	}
+    def execSqlFile(sqlFilesOpt: String): SparkSession = {
+      execSqlFile(Some(sqlFilesOpt), None)
+    }
+  }
 
 }
