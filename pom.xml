@@ -202,7 +202,7 @@
         <!-- dependencies version -->
         <scala.version>2.12.17</scala.version>
         <scala.tools.version>2.12</scala.tools.version>
-        <spark.version>3.4.0</spark.version>
+        <spark.version>3.5.7</spark.version>
         <scala.plugin.version>4.8.1</scala.plugin.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <config.version>1.4.2</config.version>
